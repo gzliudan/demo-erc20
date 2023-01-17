@@ -12,6 +12,29 @@
 评分标准：每个数据类型计 1 分  
 参考资料： https://docs.soliditylang.org/en/latest/types.html
 
+---
+
+- bool
+- int8/int256，uint8/uint256，以8为步长单位递增的不同长度有符号整数和无符号整数
+- fixed/ufixed
+- address
+- contract 类型
+- 固定大小的 byte 数组
+- 动态大小的 byte 数组
+- 地址常量
+- 有理数和整数常量
+- 字符串常量
+- Unicode 常量
+- 16 进制常量
+- 枚举
+- 用户定义的值类型
+- 函数类型
+- Data location
+- 数组
+- Array Slices
+- Structs
+- Iterable Mappings
+
 ## 第 2 题：列举并测试以太坊的 JSONRPC API。
 
 评分标准：每条有效的（提供文本命令和测试截图） API 计 2 分，例如：
@@ -29,6 +52,433 @@ curl -s -X POST -H "Content-Type: application/json" https://matic-mumbai.chainst
 
 ---
 
+答案(参考[JSON-RPC API | ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#json-rpc-methods))：
+
+- 第 1 个 API： `web3_clientVersion`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "web3_clientVersion",
+    "params": []
+}'
+```
+
+![web3_clientVersion](./imgs/methods/web3_clientVersion.png)
+
+- 第 2 个 API： `web3_sha3`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "web3_sha3",
+    "params": ["0x68656c6c6f20776f726c64"]
+}'
+```
+
+![web3_sha3](./imgs/methods/web3_sha3.png)
+
+- 第 3 个 API： `net_listening`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "net_listening",
+    "params": []
+}'
+```
+
+![net_listening](./imgs/methods/net_listening.png)
+
+- 第 4 个 API： `net_peerCount`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "net_peerCount",
+    "params": []
+}'
+```
+
+![net_peerCount](./imgs/methods/net_peerCount.png)
+
+- 第 5 个 API： `eth_syncing`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_syncing",
+    "params": []
+}'
+```
+
+![eth_syncing](./imgs/methods/eth_syncing.png)
+
+- 第 6 个 API： `eth_mining`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_mining",
+    "params": []
+}'
+```
+
+![eth_mining](./imgs/methods/eth_mining.png)
+
+- 第 7 个 API： `eth_hashrate`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_hashrate",
+    "params": []
+}'
+```
+
+![eth_hashrate](./imgs/methods/eth_hashrate.png)
+
+- 第 8 个 API： `eth_gasPrice`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_gasPrice",
+    "params": []
+}'
+```
+
+![eth_gasPrice](./imgs/methods/eth_gasPrice.png)
+
+- 第 9 个 API： `eth_accounts`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_accounts",
+    "params": []
+}'
+```
+
+![eth_accounts](./imgs/methods/eth_accounts.png)
+
+- 第 10 个 API： `eth_blockNumber`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_blockNumber",
+    "params": []
+}'
+```
+
+![eth_blockNumber](./imgs/methods/eth_blockNumber.png)
+
+- 第 11 个 API： `eth_getBalance`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getBalance",
+    "params": ["0x899D3748AD93a7845bB9b0F124B7721d7aF2BB6c","latest"]
+}'
+```
+
+![eth_getBalance](./imgs/methods/eth_getBalance.png)
+
+- 第 12 个 API： `eth_getStorageAt`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getStorageAt",
+    "params": ["0x899D3748AD93a7845bB9b0F124B7721d7aF2BB6c","0x0","latest"]
+}'
+```
+
+![eth_getStorageAt](./imgs/methods/eth_getStorageAt.png)
+
+- 第 13 个 API： `eth_getTransactionCount`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getTransactionCount",
+    "params": ["0x899D3748AD93a7845bB9b0F124B7721d7aF2BB6c","latest"]
+}'
+```
+
+![eth_getTransactionCount](./imgs/methods/eth_getTransactionCount.png)
+
+- 第 14 个 API： `eth_getBlockTransactionCountByHash`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getBlockTransactionCountByHash",
+    "params": ["0xb072d1860e492d80b83f27c2843b249663b3c0ce37619b8a8323e97d181c3fa0"]
+}'
+```
+
+![eth_getBlockTransactionCountByHash](./imgs/methods/eth_getBlockTransactionCountByHash.png)
+
+- 第 15 个 API： `eth_getBlockTransactionCountByNumber`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getBlockTransactionCountByNumber",
+    "params": ["latest"]
+}'
+```
+
+![eth_getBlockTransactionCountByNumber](./imgs/methods/eth_getBlockTransactionCountByNumber.png)
+
+- 第 16 个 API： `eth_getUncleCountByBlockHash`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getUncleCountByBlockHash",
+    "params": ["0xb072d1860e492d80b83f27c2843b249663b3c0ce37619b8a8323e97d181c3fa0"]
+}'
+```
+
+![eth_getUncleCountByBlockHash](./imgs/methods/eth_getUncleCountByBlockHash.png)
+
+- 第 17 个 API： `eth_getUncleCountByBlockNumber`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getUncleCountByBlockNumber",
+    "params": ["latest"]
+}'
+```
+
+![eth_getUncleCountByBlockNumber](./imgs/methods/eth_getUncleCountByBlockNumber.png)
+
+- 第 18 个 API： `eth_getCode`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getCode",
+    "params": ["0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889","latest"]
+}'
+```
+
+![eth_getCode](./imgs/methods/eth_getCode.png)
+
+- 第 19 个 API： `eth_call`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_call",
+    "params": [
+        {
+            "from": "0x899d3748ad93a7845bb9b0f124b7721d7af2bb6c",
+            "to": "0x9c3c9283d3e44854697cd22d3faa240cfb032889",
+            "gas": "0x76c0",
+            "gasPrice": "0x9184e72a000",
+            "value": "0x9184e72a",
+            "data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
+        },
+        "latest"
+    ]
+}'
+```
+
+![eth_call](./imgs/methods/eth_call.png)
+
+- 第 20 个 API： `eth_estimateGas`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_estimateGas",
+    "params": [
+        {
+            "from": "0x899d3748ad93a7845bb9b0f124b7721d7af2bb6c",
+            "to": "0x9c3c9283d3e44854697cd22d3faa240cfb032889",
+            "gas": "0x76c0",
+            "gasPrice": "0x9184e72a000",
+            "value": "0x9184e72a",
+            "data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
+        }
+    ]
+}'
+```
+
+![eth_estimateGas](./imgs/methods/eth_estimateGas.png)
+
+- 第 21 个 API： `eth_getBlockByHash`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getBlockByHash",
+    "params": [
+        "0xb072d1860e492d80b83f27c2843b249663b3c0ce37619b8a8323e97d181c3fa0",
+        false
+    ]
+}'
+```
+
+![eth_getBlockByHash](./imgs/methods/eth_getBlockByHash.png)
+
+- 第 22 个 API： `eth_getBlockByNumber`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getBlockByNumber",
+    "params": [
+        "0x1b4",
+        true
+    ]
+}'
+```
+
+![eth_getBlockByNumber](./imgs/methods/eth_getBlockByNumber.png)
+
+- 第 23 个 API： `eth_getTransactionByHash`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getTransactionByHash",
+    "params": [
+        "0x7f083e9fbf8b636ed6ed72464348d0c8796ccb81fb504d003aea9e4d836f525e"
+    ]
+}'
+```
+
+![eth_getTransactionByHash](./imgs/methods/eth_getTransactionByHash.png)
+
+- 第 24 个 API： `eth_getTransactionByBlockHashAndIndex`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getTransactionByBlockHashAndIndex",
+    "params": [
+        "0xb072d1860e492d80b83f27c2843b249663b3c0ce37619b8a8323e97d181c3fa0",
+        "0x0"
+    ]
+}'
+```
+
+![eth_getTransactionByBlockHashAndIndex](./imgs/methods/eth_getTransactionByBlockHashAndIndex.png)
+
+- 第 25 个 API： `eth_getTransactionByBlockNumberAndIndex`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getTransactionByBlockNumberAndIndex",
+    "params": [
+        "0x1d951a4",
+        "0x0"
+    ]
+}'
+```
+
+![eth_getTransactionByBlockNumberAndIndex](./imgs/methods/eth_getTransactionByBlockNumberAndIndex.png)
+
+- 第 26 个 API： `eth_getTransactionReceipt`
+
+```shell
+curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_getTransactionReceipt",
+    "params": [
+        "0x7f083e9fbf8b636ed6ed72464348d0c8796ccb81fb504d003aea9e4d836f525e"
+    ]
+}'
+```
+
+![eth_getTransactionReceipt](./imgs/methods/eth_getTransactionReceipt.png)
+
 ## 第 3 题：同一个合约里代码相同的函数，为什么 GAS 费不同？
 
 请用 Remix 验证在同一个合约里，名称不同、代码相同的函数的 GAS 费不相等，并解释原因。
@@ -38,9 +488,25 @@ curl -s -X POST -H "Content-Type: application/json" https://matic-mumbai.chainst
 -   验证成功： 10 分，对过程要截图
 -   解释正确： 10 分
 
+---
+
+代码：
+
+![question3-code.png](./imgs/question3-code.png)
+
+执行 `setVal(2)`:
+
+![setVal.png](./imgs/question3-setVal.png)
+
+执行 `setVal1(2)`:
+
+![setVal1.png](./imgs/question3-setVal1.png)
+
+解释：可能是调用时机不一样，或者网络繁忙程度导致的 GAS 价格变化。
+
 ## 第 4 题：用 Remix 部署校验合约
 
-用 Remix 写一个合约，部署到 mumbai 链上，计算 mumbai 链的最近平均出块时间，并校验合约代码代码。
+用 Remix 写一个合约，部署到 mumbai 链上，计算 mumbai 链的最近平均出块时间，并校验合约代码。
 
 评分标准：
 
@@ -48,6 +514,24 @@ curl -s -X POST -H "Content-Type: application/json" https://matic-mumbai.chainst
 -   部署成功：截图 10 分
 -   代码校验：截图 5 分
 -   获取结果：截图 5 分
+
+---
+
+代码：
+
+![question4-code.png](./imgs/question4-code.png)
+
+部署：
+
+![question4-deploy.png](./imgs/question4-deploy.png)
+
+校验：
+
+![question4-verify.png](./imgs/question4-verify.png)
+
+结果：
+
+![question4-result.png](./imgs/question4-result.png)
 
 ## 第 5 题：黑名单 ERC20 合约
 
