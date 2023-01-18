@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MIT
 
-/* global describe context it ethers beforeEach afterEach */
+/* global describe context it */
 
 // ==================== External Imports ====================
 
 const chai = require('chai');
+const { ethers } = require('hardhat');
+const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 
 // ==================== Internal Imports ====================
 
 const { keccak256 } = require('./helpers/hash');
 const { deployContract } = require('./helpers/deploy');
-const { snapshotBlockchain, revertBlockchain } = require('./helpers/evmUtil.js');
 
 const { expect } = chai;
 
@@ -23,20 +24,15 @@ describe('contract BlacklistTokenFactory', function () {
   const symbol = 'DTK';
   const quantity = 1000000;
 
-  let owner;
-  let caller;
-  let factory;
-  let snapshotId;
-
-  beforeEach(async () => {
-    snapshotId = await snapshotBlockchain();
-    [owner, caller] = await ethers.getSigners();
-    factory = await deployContract('BlacklistTokenFactory', [], owner);
-  });
-
-  afterEach(async () => {
-    await revertBlockchain(snapshotId);
-  });
+  const deployTokenFixture = async () => {
+    const [owner, caller] = await ethers.getSigners();
+    const factory = await deployContract('BlacklistTokenFactory', [], owner);
+    return {
+      owner,
+      caller,
+      factory,
+    };
+  };
 
   context('function createBlacklistToken', async () => {
     async function getTokenAddress(txnHash) {
@@ -60,22 +56,26 @@ describe('contract BlacklistTokenFactory', function () {
     }
 
     async function createBlacklistToken() {
+      const { factory, caller } = await loadFixture(deployTokenFixture);
       return await factory.connect(caller).createBlacklistToken(name, symbol, quantity);
     }
 
     it(`should emit event CreateBlacklistToken`, async () => {
+      const { factory, caller } = await loadFixture(deployTokenFixture);
       const promise = createBlacklistToken();
       const tokenAddress = await getTokenAddress((await promise).hash);
       await expect(promise).emit(factory, 'CreateBlacklistToken').withArgs(caller.address, tokenAddress, name, symbol, quantity);
     });
 
     it(`should save token address`, async () => {
+      const { factory } = await loadFixture(deployTokenFixture);
       const promise = createBlacklistToken();
       const tokenAddress = await getTokenAddress((await promise).hash);
       expect(tokenAddress).eq(await factory.blacklistTokens(0));
     });
 
     it(`should has right name and symbol`, async () => {
+      const { factory } = await loadFixture(deployTokenFixture);
       await createBlacklistToken();
       const tokenAddress = await factory.blacklistTokens(0);
       const tokenContract = await ethers.getContractFactory('BlacklistToken');
@@ -86,6 +86,7 @@ describe('contract BlacklistTokenFactory', function () {
     });
 
     it(`should mint correct tokens to caller`, async () => {
+      const { factory, caller } = await loadFixture(deployTokenFixture);
       await createBlacklistToken();
       const tokenAddress = await factory.blacklistTokens(0);
       const tokenContract = await ethers.getContractFactory('BlacklistToken');
@@ -97,6 +98,7 @@ describe('contract BlacklistTokenFactory', function () {
     });
 
     it(`should grant correct rights to caller`, async () => {
+      const { factory, caller } = await loadFixture(deployTokenFixture);
       await createBlacklistToken();
       const tokenAddress = await factory.blacklistTokens(0);
       const tokenContract = await ethers.getContractFactory('BlacklistToken');
