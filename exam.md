@@ -552,6 +552,10 @@ curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
 
 评分标准： 30 分
 
+---
+
+已修改，详见 [commit 详情](https://github.com/heruns/demo-erc20/commit/c52db42c66873862d57010cb98c86bdac17571e9) 或 [test/BlacklistTokenFactory.test.js](./test/BlacklistTokenFactory.test.js)
+
 ### 5.3 增强 BlacklistToken 合约的功能
 
 修改本代码仓库里的 BlacklistToken 合约代码，在转账的时候抽取 10% 的手续费，并把被扣除的手续费转给合约的创建者。
