@@ -44,6 +44,20 @@ contract BlacklistTokenFactory {
         BlacklistToken blacklistToken = new BlacklistToken(name, symbol, quantity);
         blacklistTokens.push(address(blacklistToken));
 
+        // grant all roles to caller
+        blacklistToken.grantRole(blacklistToken.DEFAULT_ADMIN_ROLE(), msg.sender);
+        blacklistToken.grantRole(blacklistToken.ADMIN_ROLE(), msg.sender);
+        blacklistToken.grantRole(blacklistToken.PAUSER_ROLE(), msg.sender);
+        blacklistToken.grantRole(blacklistToken.MINTER_ROLE(), msg.sender);
+
+        // revoke all roles from factory
+        blacklistToken.renounceRole(blacklistToken.DEFAULT_ADMIN_ROLE(), address(this));
+        blacklistToken.renounceRole(blacklistToken.ADMIN_ROLE(), address(this));
+        blacklistToken.renounceRole(blacklistToken.PAUSER_ROLE(), address(this));
+        blacklistToken.renounceRole(blacklistToken.MINTER_ROLE(), address(this));
+
+        blacklistToken.transfer(msg.sender, blacklistToken.balanceOf(address(this)));
+
         emit CreateBlacklistToken(msg.sender, address(blacklistToken), name, symbol, quantity);
 
         return address(blacklistToken);
