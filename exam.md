@@ -15,25 +15,28 @@
 ---
 
 - bool
-- int8/int256，uint8/uint256，以8为步长单位递增的不同长度有符号整数和无符号整数
-- fixed/ufixed
+- uint
+- uint8
+- uint16
+- uint24
+- uint32
+- uint256
+- int8
+- int16
+- int24
+- int32
+- int256
 - address
-- contract 类型
-- 固定大小的 byte 数组
-- 动态大小的 byte 数组
-- 地址常量
-- 有理数和整数常量
-- 字符串常量
-- Unicode 常量
-- 16 进制常量
-- 枚举
-- 用户定义的值类型
-- 函数类型
-- Data location
-- 数组
-- Array Slices
-- Structs
-- Iterable Mappings
+- bytes1
+- bytes2
+- bytes3
+- bytes32
+- bytes
+- string
+- enum
+- function
+- struct
+- mapping
 
 ## 第 2 题：列举并测试以太坊的 JSONRPC API。
 
