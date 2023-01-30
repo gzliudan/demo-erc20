@@ -495,7 +495,7 @@ curl --location --request POST 'https://matic-mumbai.chainstacklabs.com' \
 
 代码：
 
-![question3-code.png](./imgs/question3-code.png)
+![question3-code.jpg](./imgs/question3-code.jpg)
 
 执行 `setVal(2)`:
 

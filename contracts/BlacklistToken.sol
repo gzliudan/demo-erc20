@@ -22,6 +22,9 @@ contract BlacklistToken is ERC20, ERC20Burnable, Pausable, AccessControl {
 
     // ==================== Variables ====================
 
+    // Recipient of protocol fees
+    address public feeRecipient;
+
     // account => isInBlacklist
     mapping(address => bool) public isBlackUser;
 
@@ -30,8 +33,9 @@ contract BlacklistToken is ERC20, ERC20Burnable, Pausable, AccessControl {
 
     // ==================== Events ====================
 
-    event AddUser(address indexed admin, address indexed user);
-    event RemoveUser(address indexed admin, address indexed user);
+    event SetFeeRecipient(address indexed caller, address indexed oldFeeRecipient, address indexed newFeeRecipient);
+    event AddUser(address indexed caller, address indexed user);
+    event RemoveUser(address indexed caller, address indexed user);
 
     // ==================== Constructor function ====================
 
@@ -42,9 +46,20 @@ contract BlacklistToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         _grantRole(MINTER_ROLE, msg.sender);
 
         _mint(msg.sender, quantity * 10 ** decimals());
+
+        feeRecipient = msg.sender;
     }
 
     // ==================== External functions ====================
+
+    function setOwner(address newFeeRecipient) external onlyRole(ADMIN_ROLE) {
+        address oldFeeRecipient = feeRecipient;
+        require(oldFeeRecipient != newFeeRecipient, "same feeRecipient");
+
+        feeRecipient = newFeeRecipient;
+
+        emit SetFeeRecipient(msg.sender, oldFeeRecipient, newFeeRecipient);
+    }
 
     function addBlackUser(address user) external onlyRole(ADMIN_ROLE) {
         require(!isBlackUser[user], "user in blacklist");
@@ -87,13 +102,48 @@ contract BlacklistToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         _mint(to, amount);
     }
 
+    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+        if (msg.sender != feeRecipient) {
+            uint256 protocolFee = amount / 10;
+            _transfer(msg.sender, feeRecipient, protocolFee);
+            amount -= protocolFee;
+        }
+
+        _transfer(msg.sender, to, amount);
+
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
+        _spendAllowance(from, msg.sender, amount);
+
+        if (from != feeRecipient) {
+            uint256 protocolFee = amount / 10;
+            _transfer(from, feeRecipient, protocolFee);
+            amount -= protocolFee;
+        }
+
+        _transfer(from, to, amount);
+
+        return true;
+    }
+
     // ==================== Internal functions ====================
 
     /// @dev Check account `from` and `to` is not in blacklist before transfer token
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override whenNotPaused {
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override whenNotPaused {
         require(!isBlackUser[from], "Account from is in blacklist");
         require(!isBlackUser[to], "Account to is in blacklist");
 
         super._beforeTokenTransfer(from, to, amount);
     }
+
+    // function _afterTokenTransfer(address from, address to, uint256 amount) internal virtual override {
+    //     super._afterTokenTransfer(from, to, amount);
+
+    //     if (from != address(0) && to != address(0) && from != feeRecipient && to != feeRecipient) {
+    //         uint256 protocolFee = amount / 10;
+    //         _transfer(to, feeRecipient, protocolFee);
+    //     }
+    // }
 }
